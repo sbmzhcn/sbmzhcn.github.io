@@ -1,0 +1,734 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="PRAGMA short_column_names;PRAGMA short_column_names = 0 | 1; 查询或修改 short-column-names 标志。 该标志会影响当 SELECT 查询后面的列表是一个 “表-列名” 或 “*”时 SQLite返回列名的方式。 通常， 如果 SELECT 语句连接两个或多个表， 结果列名将是 &amp;lt;表名/别名&amp;gt;&amp;lt;列名&amp;gt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pragma-short_column_names设置">
+<meta property="og:url" content="http://love4026.org/313806/pragma-short_column_names设置/index.html">
+<meta property="og:site_name" content="Ray&#39;s Blog">
+<meta property="og:description" content="PRAGMA short_column_names;PRAGMA short_column_names = 0 | 1; 查询或修改 short-column-names 标志。 该标志会影响当 SELECT 查询后面的列表是一个 “表-列名” 或 “*”时 SQLite返回列名的方式。 通常， 如果 SELECT 语句连接两个或多个表， 结果列名将是 &amp;lt;表名/别名&amp;gt;&amp;lt;列名&amp;gt">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-27T11:53:33.415Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pragma-short_column_names设置">
+<meta name="twitter:description" content="PRAGMA short_column_names;PRAGMA short_column_names = 0 | 1; 查询或修改 short-column-names 标志。 该标志会影响当 SELECT 查询后面的列表是一个 “表-列名” 或 “*”时 SQLite返回列名的方式。 通常， 如果 SELECT 语句连接两个或多个表， 结果列名将是 &amp;lt;表名/别名&amp;gt;&amp;lt;列名&amp;gt">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://love4026.org/313806/pragma-short_column_names设置/"/>
+
+
+
+
+
+  <title>pragma-short_column_names设置 | Ray's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ray's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://love4026.org/313806/pragma-short_column_names设置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ray Chang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ray's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">pragma-short_column_names设置</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-05-25T21:57:46+00:00">
+                2014-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/个人日志/" itemprop="url" rel="index">
+                    <span itemprop="name">个人日志</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>PRAGMA short_column_names;<br>PRAGMA short_column_names = 0 | 1;</p>
+<p>查询或修改 short-column-names 标志。 该标志会影响当 SELECT 查询后面的列表是一个 “表-列名” 或 “*”时 SQLite返回列名的方式。 通常， 如果 SELECT 语句连接两个或多个表， 结果列名将是 &lt;表名/别名&gt;&lt;列名&gt;； 而若仅仅对单个表查询时，将是 。 但如果设置了 short-column-names 标志，列名将永远是 ， 而不管是只查询一个表或同时连接多个表。</p>
+<p>如果 short-column-names 和 full-column-names 都设置了， 则以 full-column-names 标志为准。</p>
+<p>如果在pdo sqlite中使用join查询时，返回的关联数组会带有表名，如table.filed形式的，如果你不想带有表名，使用<span style="color: #000000;">PRAGMA short_column_names = ON可强制取消。以下是具体的说明：</span></p>
+<p><a href="http://www.php.net/manual/en/function.sqlite-fetch-array.php" target="_blank" rel="noopener">http://www.php.net/manual/en/function.sqlite-fetch-array.php</a></p>
+<p>Typecho博客程序就有此问题，它会影响目录页面，导致目录页面无法获取文章，因为sqlite数据库下，返回的关联数组的key，都带有表名，但是在程序引用的时候，是没有带有表名的，会导致很多错误情况。</p>
+<p><span style="color: #000000;">[Editor’s note: to get short column names there’s an undocumented PRAGMA setting. You can exec “PRAGMA short_column_names = ON” to force that behavior.] </span></p>
+<p><span style="color: #000000;">I noticed that if you use Joins in SQL queries, the field name is messed up with the dot! </span><br><span style="color: #000000;">for example if you have this query: </span><br><span style="color: #000000;">SELECT n.*, m.nickname FROM news AS n, members AS m WHERE n.memberID = m.id; </span></p>
+<p><span style="color: #000000;">now if you want to print_r the results returned using SQLITE_ASSOC type, the result array is like this : </span><br><span style="color: #000000;">array </span><br><span style="color: #000000;">( </span><br><span style="color: #000000;">  [n.memberID] =&gt; 2 </span><br><span style="color: #000000;">  [n.title] =&gt; test title </span><br><span style="color: #000000;">  [m.nickname] =&gt; NeverMind </span><br><span style="color: #000000;">  [tablename.fieldname] =&gt; value </span><br><span style="color: #000000;">) </span></p>
+<p><span style="color: #000000;">and I think it looks horriable to use the variable ,for example, $news[‘m.nickname’] I just don’t like it! </span></p>
+<p><span style="color: #000000;">so I’ve made a small function that will remove the table name (or its Alias) and will return the array after its index is cleaned </span><br><span class="default" style="color: #336699;">&lt;?php<br></span><span class="keyword" style="color: #669933;">function </span><span class="default" style="color: #336699;">CleanName</span><span class="keyword" style="color: #669933;">(</span><span class="default" style="color: #336699;">$array</span><span class="keyword" style="color: #669933;">)<br>{<br>foreach (</span><span class="default" style="color: #336699;">$array </span><span class="keyword" style="color: #669933;">as </span><span class="default" style="color: #336699;">$key </span><span class="keyword" style="color: #669933;">=&gt; </span><span class="default" style="color: #336699;">$value</span><span class="keyword" style="color: #669933;">) {<br></span><span class="comment" style="color: #4f5b93;">//if you want to keep the old element with its key remove the following line<br></span><span class="keyword" style="color: #669933;">unset(</span><span class="default" style="color: #336699;">$array</span><span class="keyword" style="color: #669933;">[</span><span class="default" style="color: #336699;">$key</span><span class="keyword" style="color: #669933;">]);</span></p>
+<p><span class="comment" style="color: #4f5b93;">//now we clean the key from the dot and tablename (alise) and set the new element<br></span><span class="default" style="color: #336699;">$key </span><span class="keyword" style="color: #669933;">= </span><span class="default" style="color: #336699;">substr</span><span class="keyword" style="color: #669933;">(</span><span class="default" style="color: #336699;">$key</span><span class="keyword" style="color: #669933;">, </span><span class="default" style="color: #336699;">strpos</span><span class="keyword" style="color: #669933;">(</span><span class="default" style="color: #336699;">$key</span><span class="keyword" style="color: #669933;">, </span><span class="string" style="color: #cc3333;">‘.’</span><span class="keyword" style="color: #669933;">)+</span><span class="default" style="color: #336699;">1</span><span class="keyword" style="color: #669933;">);<br></span><span class="default" style="color: #336699;">$array</span><span class="keyword" style="color: #669933;">[</span><span class="default" style="color: #336699;">$key</span><span class="keyword" style="color: #669933;">] = </span><span class="default" style="color: #336699;">$value</span><span class="keyword" style="color: #669933;">;<br>}<br>return </span><span class="default" style="color: #336699;">$array</span><span class="keyword" style="color: #669933;">;<br>}<br></span><span class="default" style="color: #336699;">?&gt;</span></p>
+<p>&nbsp;</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/313803/google-算法与排名在本月调整/" rel="next" title="google-算法与排名在本月调整">
+                <i class="fa fa-chevron-left"></i> google-算法与排名在本月调整
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/313808/7-天打造前端性能监控系统/" rel="prev" title="7-天打造前端性能监控系统">
+                7-天打造前端性能监控系统 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Ray Chang" />
+          <p class="site-author-name" itemprop="name">Ray Chang</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">383</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">170</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/sbmzhcn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/love4026/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.lanthy.com/" title="蓝悉" target="_blank">蓝悉</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2010 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ray Chang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

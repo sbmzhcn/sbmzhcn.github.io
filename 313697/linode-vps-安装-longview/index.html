@@ -1,0 +1,836 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linode,longview," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="安装教程可以参考官方的说明，你可以使用它提供的自动安装，我试了下没有成功，所以改为手工安装。按照它说的做一般就没有问题的，中间有可能会出现一点问题，仔细看文档就行了。https://library.linode.com/longview#sph_installing-the-client 以 Fedora and CentOS 为例子。1、首先通过ssh登陆你的VPS2、创建一个文件，通过以下命令">
+<meta name="keywords" content="linode,longview">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linode-vps-安装-longview">
+<meta property="og:url" content="http://love4026.org/313697/linode-vps-安装-longview/index.html">
+<meta property="og:site_name" content="Ray&#39;s Blog">
+<meta property="og:description" content="安装教程可以参考官方的说明，你可以使用它提供的自动安装，我试了下没有成功，所以改为手工安装。按照它说的做一般就没有问题的，中间有可能会出现一点问题，仔细看文档就行了。https://library.linode.com/longview#sph_installing-the-client 以 Fedora and CentOS 为例子。1、首先通过ssh登陆你的VPS2、创建一个文件，通过以下命令">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://library.linode.com/assets/1383-lv_install.png">
+<meta property="og:image" content="https://library.linode.com/assets/1391-lv_overview_swap_i_crop.png">
+<meta property="og:image" content="https://library.linode.com/assets/1379-lv_api_sm.png">
+<meta property="og:updated_time" content="2018-02-27T11:53:33.415Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linode-vps-安装-longview">
+<meta name="twitter:description" content="安装教程可以参考官方的说明，你可以使用它提供的自动安装，我试了下没有成功，所以改为手工安装。按照它说的做一般就没有问题的，中间有可能会出现一点问题，仔细看文档就行了。https://library.linode.com/longview#sph_installing-the-client 以 Fedora and CentOS 为例子。1、首先通过ssh登陆你的VPS2、创建一个文件，通过以下命令">
+<meta name="twitter:image" content="https://library.linode.com/assets/1383-lv_install.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://love4026.org/313697/linode-vps-安装-longview/"/>
+
+
+
+
+
+  <title>linode-vps-安装-longview | Ray's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ray's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://love4026.org/313697/linode-vps-安装-longview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ray Chang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ray's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">linode-vps-安装-longview</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2014-01-12T21:08:04+00:00">
+                2014-01-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>安装教程可以参考官方的说明，你可以使用它提供的自动安装，我试了下没有成功，所以改为手工安装。按照它说的做一般就没有问题的，中间有可能会出现一点问题，仔细看文档就行了。<br><a href="https://library.linode.com/longview#sph_installing-the-client" target="_blank" rel="noopener">https://library.linode.com/longview#sph_installing-the-client</a></p>
+<p>以 Fedora and CentOS 为例子。<br>1、首先通过ssh登陆你的VPS<br>2、创建一个文件，通过以下命令，如果是root用户无需sudo 命令。<br>sudo nano /etc/yum.repos.d/longview.repo<br>3、把以下内容粘贴到 longview.repo 文件中，你可以使用vi编辑器，也可以使用nano编辑器<br>[longview]<br>name=Longview Repo<br>baseurl=<a href="https://yum-longview.linode.com/DIST/REV/noarch/" target="_blank" rel="noopener">https://yum-longview.linode.com/DIST/REV/noarch/</a><br>enabled=1<br>gpgcheck=1</p>
+<p>这里需要注意的就是baseurl=后面的网址，不能随便填，要根据你的系统选择合适的文件，比如centos 6 以上版本的，是 <a href="https://yum-longview.linode.com/centos/6/noarch/repodata/" target="_blank" rel="noopener">https://yum-longview.linode.com/centos/6/noarch/repodata/</a><br>具体的你可以打开 <a href="https://yum-longview.linode.com/" target="_blank" rel="noopener">https://yum-longview.linode.com/</a> 根据里面的内容，寻找相应的目录。</p>
+<p>查看系统版本可以通过 cat /etc/redhat-release</p>
+<p>4、这一步就是保存你的文件了。nono 使用 Control-X, 然后输入 Y. vi 就使用:wq</p>
+<p>下面的就没什么问题，你可以直接按照官方的提示操作</p>
+<ol>
+<li><p>使用以下命令下载linode.key文件到你的系统</p>
+<pre>sudo wget https://yum-longview.linode.com/linode.key</pre>
+</li>
+<li><p>使用以下命令导入key文件</p>
+<pre>sudo rpm --import linode.key</pre>
+</li>
+<li><p>创建存入api的目录</p>
+<pre>sudo mkdir -p /etc/linode/</pre>
+</li>
+<li><p>创建longview.key文件来保存你的api key。api在下面会告诉你怎么得到。</p>
+<pre>sudo nano /etc/linode/longview.key</pre>
+</li>
+<li><p>想得到api key得先登陆 <a href="https://manager.linode.com/" target="_blank" rel="noopener">Linode Manager</a>.</p>
+</li>
+<li>选择一个<strong>Longview</strong> .</li>
+<li>单击 <strong>Add Client</strong>. 然后出提示以下界面<a href="https://library.linode.com/assets/1383-lv_install.png" target="_blank" rel="noopener"><img src="https://library.linode.com/assets/1383-lv_install.png" alt="Manually adding a system to Linode Longview."></a></li>
+<li>点击 <strong>go back</strong> 按键返回到 Linode 管理面板.</li>
+<li>单击 <strong>i</strong> 按键, 图示如下.<a href="https://library.linode.com/assets/1391-lv_overview_swap_i_crop.png" target="_blank" rel="noopener"><img src="https://library.linode.com/assets/1391-lv_overview_swap_i_crop.png" alt="Manually adding a system to Linode Longview."></a></li>
+<li>复制 API key, 图标如下.<a href="https://library.linode.com/assets/1380-lv_api.png" target="_blank" rel="noopener"><img src="https://library.linode.com/assets/1379-lv_api_sm.png" alt="Manually adding a system to Linode Longview."></a></li>
+<li>再返回到终端命令界面, 向 <tt>longview.key</tt> 文件中粘贴你刚复制的API key.</li>
+<li>然后保存，通过命令 <strong>Control-X</strong>, 再按 <strong>Y</strong>.</li>
+<li>通过键入以下命令安装longview:<br><pre>sudo yum install -y linode-longview</pre><br>Congratulations! The Longview client is now installed on your Fedora or CentOS system.</li>
+</ol>
+<p>如果不出问题，就可以成功安装上了。</p>
+<p>安装完之后有一个系统配置。很简单创建一个数据库。然后把数据库的用户名和密码写入<em>/etc/linode/longview.d/MySQL.conf，然后再重启longview</em></p>
+<pre>service longview restart</pre>
+
+<h2 id="Manual-Configuration-All-Distributions"><a href="#Manual-Configuration-All-Distributions" class="headerlink" title="Manual Configuration (All Distributions)"></a><a href="https://library.linode.com/longview/longview-for-mysql#sph_id7" target="_blank" rel="noopener">Manual Configuration (All Distributions)</a></h2><p>To enable the MySQL Longview app manually, follow these steps on your Linode via SSH:</p>
+<ol>
+<li><p>Create a new MySQL user with minimal privileges for Longview. Run the following queries on your database as the root MySQL user to create the new user:</p>
+<pre>CREATE USER 'linode-longview'@'localhost' IDENTIFIED BY '***************';
+flush privileges;</pre>
+</li>
+<li><p>Edit <tt>/etc/linode/longview.d/MySQL.conf</tt> to include the same username and password you just added. It should look like the following:<strong>File:</strong><em>/etc/linode/longview.d/MySQL.conf</em></p>
+<div><br><pre>#username root<br>#password example_password<br>username linode-longview<br>password <strong><strong><strong>***</strong></strong></strong></pre><br></div></li>
+<li><p>Restart Longview:</p>
+<pre>service longview restart</pre>
+</li>
+<li><p>Refresh the Longview MySQL tab in the Linode Manager.<br>You should now be able to see Longview data for MySQL. If that’s not the case, proceed to the <a href="https://library.linode.com/longview/longview-for-mysql#sph_id3" target="_blank" rel="noopener">Troubleshooting</a> section at the end of this article.</p>
+</li>
+</ol>
+<p>安装成功后，如果后台提示你的时间有问题，按以下操作安装ntp时间同步服务：</p>
+<pre class="lang:sh decode:true">yum install ntp
+service ntpd start
+chkconfig ntpd on</pre>
+
+<p>关于lnmp的一些问题</p>
+<p>因为我服务器使用的是lnmp.org上的 lnmp。 有些小问题需要解决，一个就是 apache状态获取不了，因为显示403.<br>解决办法可以看这个。<br><a href="http://bbs.vpser.net/thread-2858-1-6.html" target="_blank" rel="noopener">http://bbs.vpser.net/thread-2858-1-6.html</a><br>如果没有安装lynx 选安装它</p>
+<pre class="lang:default decode:true ">yum install lynx -y</pre> 
+
+<p>然后修改 vi /usr/local/apache/conf/extra/httpd-info.conf 把</p>
+<pre class="lang:default decode:true ">&lt;Location /server-status&gt;
+    SetHandler server-status
+    Order deny,allow
+    Deny from all
+    Allow from .example.com
+&lt;/Location&gt;</pre> 
+改为
+
+<pre class="lang:default decode:true ">&lt;Location /server-status&gt;
+    SetHandler server-status
+    Order deny,allow
+    Deny from all
+    Allow from 127.0.0.1
+&lt;/Location&gt;</pre> 
+然后重启apache
+
+<pre class="lang:default decode:true ">service httpd restart</pre> 
+
+<p>以上可以解决apache问题。<br>还有一个问题就是nginx状态获取不到。<br>修改 longview的一些配置即可， vi /etc/linode/longview.d/Nginx.conf<br>把里面的nginx_status，改为 status即可。<br>然后重启你的longview.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linode/" rel="tag"># linode</a>
+          
+            <a href="/tags/longview/" rel="tag"># longview</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/313694/centos-ssh无密码登入linux设置/" rel="next" title="centos-ssh无密码登入linux设置">
+                <i class="fa fa-chevron-left"></i> centos-ssh无密码登入linux设置
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/313703/我装了四年b，才能和你一起聊电影/" rel="prev" title="我装了四年b，才能和你一起聊电影">
+                我装了四年b，才能和你一起聊电影 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Ray Chang" />
+          <p class="site-author-name" itemprop="name">Ray Chang</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">383</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">170</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/sbmzhcn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/love4026/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.lanthy.com/" title="蓝悉" target="_blank">蓝悉</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Manual-Configuration-All-Distributions"><span class="nav-number">1.</span> <span class="nav-text">Manual Configuration (All Distributions)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2010 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ray Chang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

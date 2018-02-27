@@ -1,0 +1,769 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="作为一个mercurial的忠实用户,在日常使用时觉得每次同步代码的时候输入ssh密码甚为繁琐,查看了下官方的文档发现Tortoise HG的运行机制,发现它用的是putty程序中的plink来实现数据链接同时还支持pageant key agent,也就是意味着可以让Tortoise HG用私钥来访问SSH服务器了.下面是操作步骤: 1. 用putty工具生成私钥文件 去putty官网下载put">
+<meta property="og:type" content="article">
+<meta property="og:title" content="教程让tortoise-hgmercurial和putty免密码登陆ssh服务器">
+<meta property="og:url" content="http://love4026.org/313533/教程让tortoise-hgmercurial和putty免密码登陆ssh服务器/index.html">
+<meta property="og:site_name" content="Ray&#39;s Blog">
+<meta property="og:description" content="作为一个mercurial的忠实用户,在日常使用时觉得每次同步代码的时候输入ssh密码甚为繁琐,查看了下官方的文档发现Tortoise HG的运行机制,发现它用的是putty程序中的plink来实现数据链接同时还支持pageant key agent,也就是意味着可以让Tortoise HG用私钥来访问SSH服务器了.下面是操作步骤: 1. 用putty工具生成私钥文件 去putty官网下载put">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://be-evil.org/content/uploadfile/201201/thum-e36ddfc62e79410164dccc1f20e90c2020120130181503.png">
+<meta property="og:image" content="http://be-evil.org/content/uploadfile/201201/thum-8906e388b7777c97b9f65bd8174910b920120130181503.png">
+<meta property="og:image" content="http://be-evil.org/content/uploadfile/201201/thum-71a4b03b5aff0c0c4dd015b518fe453b20120130181503.png">
+<meta property="og:image" content="http://be-evil.org/content/uploadfile/201201/1d48fe1ff92365e01195973549c01a9a20120130182556.png">
+<meta property="og:image" content="http://be-evil.org/content/uploadfile/201202/thum-74e66bd531867bc7b0c80372f08acc1c20120201121236.png">
+<meta property="og:image" content="http://be-evil.org/content/uploadfile/201201/thum-f6c57ed61955aeed05d88bedbf5d9da320120130182737.png">
+<meta property="og:image" content="http://be-evil.org/content/uploadfile/201201/5fa62c94b058ac936c8f7b0183b747fd20120130183539.png">
+<meta property="og:image" content="http://be-evil.org/content/uploadfile/201201/thum-5489ae89fbfda297455c5093aa9dc6f720120130184213.png">
+<meta property="og:image" content="http://be-evil.org/content/uploadfile/201201/thum-4fd76a5d2ca20748ee9505de33e888f320120130185640.png">
+<meta property="og:updated_time" content="2018-02-27T11:53:33.431Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="教程让tortoise-hgmercurial和putty免密码登陆ssh服务器">
+<meta name="twitter:description" content="作为一个mercurial的忠实用户,在日常使用时觉得每次同步代码的时候输入ssh密码甚为繁琐,查看了下官方的文档发现Tortoise HG的运行机制,发现它用的是putty程序中的plink来实现数据链接同时还支持pageant key agent,也就是意味着可以让Tortoise HG用私钥来访问SSH服务器了.下面是操作步骤: 1. 用putty工具生成私钥文件 去putty官网下载put">
+<meta name="twitter:image" content="http://be-evil.org/content/uploadfile/201201/thum-e36ddfc62e79410164dccc1f20e90c2020120130181503.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://love4026.org/313533/教程让tortoise-hgmercurial和putty免密码登陆ssh服务器/"/>
+
+
+
+
+
+  <title>教程让tortoise-hgmercurial和putty免密码登陆ssh服务器 | Ray's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ray's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://love4026.org/313533/教程让tortoise-hgmercurial和putty免密码登陆ssh服务器/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ray Chang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ray's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">教程让tortoise-hgmercurial和putty免密码登陆ssh服务器</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2012-12-17T17:37:23+00:00">
+                2012-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/转载/" itemprop="url" rel="index">
+                    <span itemprop="name">转载</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>作为一个mercurial的忠实用户,在日常使用时觉得每次同步代码的时候输入ssh密码甚为繁琐,查看了下<a href="http://tortoisehg.bitbucket.org/manual/2.1/sync.html#ssh" target="_blank" rel="noopener">官方的文档</a>发现Tortoise HG的运行机制,发现它用的是putty程序中的plink来实现数据链接同时还支持pageant key agent,也就是意味着可以让Tortoise HG用私钥来访问SSH服务器了.下面是操作步骤:</p>
+<p>1. 用putty工具生成私钥文件</p>
+<p>去putty官网下载<a href="http://the.earth.li/~sgtatham/putty/latest/x86/puttygen.exe" target="_blank" rel="noopener">puttygen.exe</a></p>
+<p>下载后运行, 界面效果如下:</p>
+<p><a href="http://be-evil.org/content/uploadfile/201201/e36ddfc62e79410164dccc1f20e90c2020120130181503.png" target="_blank" rel="noopener"><img src="http://be-evil.org/content/uploadfile/201201/thum-e36ddfc62e79410164dccc1f20e90c2020120130181503.png" alt="点击查看原图"></a></p>
+<p>点击Generate按钮后在下图红框中的区域来回晃动鼠标指针,直到进度条走满为止</p>
+<p><a href="http://be-evil.org/content/uploadfile/201201/8906e388b7777c97b9f65bd8174910b920120130181503.png" target="_blank" rel="noopener"><img src="http://be-evil.org/content/uploadfile/201201/thum-8906e388b7777c97b9f65bd8174910b920120130181503.png" alt="点击查看原图"></a></p>
+<p>进度条走满后,请选择 Save private key 来将私钥保存为一个ppk文件</p>
+<p><a href="http://be-evil.org/content/uploadfile/201201/71a4b03b5aff0c0c4dd015b518fe453b20120130181503.png" target="_blank" rel="noopener"><img src="http://be-evil.org/content/uploadfile/201201/thum-71a4b03b5aff0c0c4dd015b518fe453b20120130181503.png" alt="点击查看原图"></a></p>
+<p>然后请将上图中 “Public key for pasting into OpenSSH authorized_keys file” 文本框中的 ssh-rsa 开头的字符串整个复制出来,下雨步骤将会用到这个字符串</p>
+<p>2. 在SSH服务器上注册你的私钥</p>
+<p>用putty或者其他ssh客户端登陆你的ssh服务器,运行命令</p>
+<p><strong>vi ~/.ssh/authorized_keys</strong></p>
+<p>按i(vi编辑器的插入命令)之后把粘贴的字符串复制进去,按esc键再输入:wq保存该文件(如果提示没有.ssh文件夹或者authorized_keys你可以手动创建).另外请注意注意,每个私钥的字符串只能使用一行</p>
+<p><a href="http://be-evil.org/content/uploadfile/201201/1d48fe1ff92365e01195973549c01a9a20120130182556.png" target="_blank" rel="noopener"><img src="http://be-evil.org/content/uploadfile/201201/1d48fe1ff92365e01195973549c01a9a20120130182556.png" alt="点击查看原图"></a></p>
+<p>3. 用putty验证你的私钥工作正常</p>
+<p>打开putty,新建一个ssh链接,选择data,在这里填写你登陆ssh服务器的用户名</p>
+<p><a href="http://be-evil.org/content/uploadfile/201202/74e66bd531867bc7b0c80372f08acc1c20120201121236.png" target="_blank" rel="noopener"><img src="http://be-evil.org/content/uploadfile/201202/thum-74e66bd531867bc7b0c80372f08acc1c20120201121236.png" alt="点击查看原图"></a></p>
+<p>然后在切换到Auth,在右侧选择你先前保存的ppk文件</p>
+<p><a href="http://be-evil.org/content/uploadfile/201201/f6c57ed61955aeed05d88bedbf5d9da320120130182737.png" target="_blank" rel="noopener"><img src="http://be-evil.org/content/uploadfile/201201/thum-f6c57ed61955aeed05d88bedbf5d9da320120130182737.png" alt="点击查看原图"></a></p>
+<p>&nbsp;</p>
+<p>设定好之后,点击open按钮,putty就会自动登陆到ssh服务器而不会在让你输入密码了,登陆信息显示如下</p>
+<p><a href="http://be-evil.org/content/uploadfile/201201/5fa62c94b058ac936c8f7b0183b747fd20120130183539.png" target="_blank" rel="noopener"><img src="http://be-evil.org/content/uploadfile/201201/5fa62c94b058ac936c8f7b0183b747fd20120130183539.png" alt="点击查看原图"></a></p>
+<p>&nbsp;</p>
+<p>4. 让你的Tortoise HG也用上私钥</p>
+<p>全局法:</p>
+<p>如果你想你电脑上所有的HG版本库在同步的时候都用上同一个私钥文件的话,请按照下面的方法操作</p>
+<p>在你操作系统的个人目录(Windows 7的话路径是C:\Users\用户名)中,应该有一个mercurial.ini(如果没有请创建之), 用文本编辑器打开这个文件, 在[ui]部分增加下面的配置信息</p>
+<p>ssh = tortoiseplink.exe -ssh -i “D:\my.ppk”</p>
+<p>请注意: 你需要将 D:\my.ppk 替换为你自己电脑上保存先前生成ppk文件的完整路径,配置文件内容参考如下</p>
+<p><a href="http://be-evil.org/content/uploadfile/201201/5489ae89fbfda297455c5093aa9dc6f720120130184213.png" target="_blank" rel="noopener"><img src="http://be-evil.org/content/uploadfile/201201/thum-5489ae89fbfda297455c5093aa9dc6f720120130184213.png" alt="点击查看原图"></a></p>
+<p>版本库法:</p>
+<p>如果你只是想让个别几个版本库使用私钥同步</p>
+<p>请用文本编辑器打开你版本库目录/.hg/hgrc这个文件</p>
+<p>剩下的操作请参看全局法即可</p>
+<p>保存完毕之后,可以试试使用hg pull 或者 push 功能来同步数据, 如果在输出窗口看到下面信息的输出,恭喜你,设定成功了.</p>
+<p><a href="http://be-evil.org/content/uploadfile/201201/4fd76a5d2ca20748ee9505de33e888f320120130185640.png" target="_blank" rel="noopener"><img src="http://be-evil.org/content/uploadfile/201201/thum-4fd76a5d2ca20748ee9505de33e888f320120130185640.png" alt="点击查看原图"></a></p>
+<p>原文：<a href="http://be-evil.org/post-293.html" target="_blank" rel="noopener">http://be-evil.org/post-293.html</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/313526/lnmpa-服务器下实现网页内容替换/" rel="next" title="lnmpa-服务器下实现网页内容替换">
+                <i class="fa fa-chevron-left"></i> lnmpa-服务器下实现网页内容替换
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/313535/sphinx-error-connection-to-127-0-0-19312-failed-errno0-msg/" rel="prev" title="sphinx-error-connection-to-127-0-0-19312-failed-errno0-msg">
+                sphinx-error-connection-to-127-0-0-19312-failed-errno0-msg <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Ray Chang" />
+          <p class="site-author-name" itemprop="name">Ray Chang</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">383</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">170</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/sbmzhcn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/love4026/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.lanthy.com/" title="蓝悉" target="_blank">蓝悉</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2010 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ray Chang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

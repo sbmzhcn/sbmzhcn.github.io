@@ -1,0 +1,790 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="wordpress,wordpress中文," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="我们制作wordpress主题，对于中文用户来说最主要的还是主题对多语言的支持，这篇文章讲一下怎样让wodpress主题支持多语言，比如中文支持，而不必在主题里直接写上中文这种笨方法。 以为我的这篇博客的主题(love4026)为例">
+<meta name="keywords" content="wordpress,wordpress中文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress主题多语言支持">
+<meta property="og:url" content="http://love4026.org/313038/wordpress主题多语言支持/index.html">
+<meta property="og:site_name" content="Ray&#39;s Blog">
+<meta property="og:description" content="我们制作wordpress主题，对于中文用户来说最主要的还是主题对多语言的支持，这篇文章讲一下怎样让wodpress主题支持多语言，比如中文支持，而不必在主题里直接写上中文这种笨方法。 以为我的这篇博客的主题(love4026)为例">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb.png">
+<meta property="og:image" content="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb1.png">
+<meta property="og:image" content="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb2.png">
+<meta property="og:image" content="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb3.png">
+<meta property="og:image" content="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb4.png">
+<meta property="og:image" content="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb5.png">
+<meta property="og:image" content="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb6.png">
+<meta property="og:image" content="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb7.png">
+<meta property="og:updated_time" content="2018-02-27T11:53:33.423Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="wordpress主题多语言支持">
+<meta name="twitter:description" content="我们制作wordpress主题，对于中文用户来说最主要的还是主题对多语言的支持，这篇文章讲一下怎样让wodpress主题支持多语言，比如中文支持，而不必在主题里直接写上中文这种笨方法。 以为我的这篇博客的主题(love4026)为例">
+<meta name="twitter:image" content="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://love4026.org/313038/wordpress主题多语言支持/"/>
+
+
+
+
+
+  <title>wordpress主题多语言支持 | Ray's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ray's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://love4026.org/313038/wordpress主题多语言支持/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ray Chang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ray's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">wordpress主题多语言支持</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2011-02-12T04:06:00+00:00">
+                2011-02-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Wordpress学习/" itemprop="url" rel="index">
+                    <span itemprop="name">Wordpress学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们制作wordpress主题，对于中文用户来说最主要的还是主题对多语言的支持，这篇文章讲一下怎样让wodpress主题支持多语言，比如中文支持，而不必在主题里直接写上中文这种笨方法。</p>
+<p>以为我的这篇博客的主题(<span style="color: #0080ff;">love4026)</span>为例</p>
+<a id="more"></a>
+<p>首先你需要在主题文件中添加本地化支持语句，把下面的代码添加到你主题根目录中的functions.php文件中去：</p>
+<pre><code>// Localization
+function theme_init(){
+    load_theme_textdomain(&apos;love4026&apos;, get_template_directory() . &apos;/languages&apos;);
+}
+add_action (&apos;init&apos;, &apos;theme_init&apos;);
+</code></pre><p>上面的代码中love4026可以随便设（一般填上主题名字），它是用来告诉WordPress如何选择那些能本地化语言的代码，下面还会出现。’/languages’ 字段是告诉WordPress本地化语言文件的调用路径（主题根目录下的languages文件夹），一般主题默认就是这样，很多主题中是没有这个文件夹的。</p>
+<p>有了上面代码的设置后，就可心在主题文件中定义一下究竟那些文字需要支持语言的本地化。即多语言支持，我这里以侧栏中的一句标题代码为例。在还没有支持语言本地化时候，代码是这样的：</p>
+<p><code>&amp;lt;h2&amp;gt;Most Popular&amp;lt;/h2&amp;gt;</code></p>
+<p>因为我希望对上面红色字段Most Popular修改到支持本地化，即当主题选择不同的语言时出现对应的语言，只要把代码修改成如下：</p>
+<p><code>&amp;lt;h2&amp;gt;&amp;lt;?php _e(&#39;Most Popular&#39;, &#39;love4026&#39;); ?&amp;gt;&amp;lt;/h2&amp;gt;</code></p>
+<p>或</p>
+<p><code>&amp;lt;h2&amp;gt;&amp;lt;?php echo __(&#39;Most Popular&#39;, &#39;love4026&#39;); ?&amp;gt;&amp;lt;/h2&amp;gt;</code></p>
+<p>大家能看到修改的内容了吧，再举一例，比如我在footer信息中的一段代码：</p>
+<p><code>&amp;lt;span&amp;gt;&lt;span style=&quot;color: #ff0000;&quot;&gt;Copyright&lt;/span&gt; 2011&amp;lt;/span&amp;gt;</code></p>
+<p>我要把红色的字段copyright修改到支持本地化，修改代码如下：</p>
+<p><code>&amp;lt;span&amp;gt;&amp;lt;?php _e(&#39;Copyright&#39;, &#39;love4026&#39;); ?&amp;gt; 2011&amp;lt;/span&amp;gt;</code></p>
+<p>相信到此大家就很了解是如何修改主题中显示字符段的代码了，注意的上面两句代码中都带有的标识字段：</p>
+<p><code>love4026</code></p>
+<p>它就是用来对应在文章最开头那段代码中的<strong>love4026</strong>那部分，它们之间必须要对应。一般情况下主题你也可以这样写_e(‘Copyright’); ，这样就会自动调用wordpress默认的语言文件（如果你用的是wordpress的中文版，在wp-content下会有languages目录），然后就用使用languages下的zh_CN.mo文件，翻译Copyright这个字段。</p>
+<p>不过通常wordporess默认的不可能带所有英文的翻译，这时就要我们自己在主题里设置自己的zh_CN.mo文件，这就需要一个软件的支持<a href="http://www.poedit.net/download.php" target="_blank" rel="noopener">Poedit</a>。</p>
+<p>去<a href="http://downloads.sourceforge.net/project/poedit/poedit/1.4.6/poedit-1.4.6-setup.exe?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fpoedit%2Ffiles%2F&amp;ts=1297508108&amp;use_mirror=nchc" target="_blank" rel="noopener">这儿</a>下载一个<a href="http://www.poedit.net/download.php" target="_blank" rel="noopener">Poedit</a>编辑工具。然后我们需要在主题的目录中新建一个文件夹(<strong>languages</strong>)，因为我们需要在这个文件夹中放置翻译好供系统读取的文件，它对应文章开头那段代码 load_theme_textdomain(‘love4026’, get_template_directory() . ‘/<span style="color: #ff0000;">languages</span>‘);  中的红色部分。</p>
+<p>软件安装之后可以选择语言的，它支持中文。</p>
+<p>下一步利用<a href="http://www.poedit.net/download.php" target="_blank" rel="noopener">Poedit</a>新建一个“消息目录文档”，如下图：</p>
+<p><a href="http://www.love4026.org/wp-content/uploads/2011/02/image.png" target="_blank" rel="noopener"><img src="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb.png" alt="image" title="image"></a></p>
+<p>然后它需要我们对这个文档初始设置一下。</p>
+<p><a href="http://www.love4026.org/wp-content/uploads/2011/02/image1.png" target="_blank" rel="noopener"><img src="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb1.png" alt="image" title="image"></a></p>
+<p>（上图）本例我需要把上面的英文字段翻译成中文的，所以在设置的“工程信息”一栏中我是这样填写的，这些填写都不是很重要，就是一些记录信息之类的，不影响翻译操作。</p>
+<p><a href="http://www.love4026.org/wp-content/uploads/2011/02/image2.png" target="_blank" rel="noopener"><img src="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb2.png" alt="image" title="image"></a></p>
+<p>（上图）接着要填写的是第二个标签页“路径”。<span style="color: #ff0000;">这一步很重要，请按图中的填写</span>。因为它将会告诉这个软件从何处获取需要翻译的字段。</p>
+<p><a href="http://www.love4026.org/wp-content/uploads/2011/02/image3.png" target="_blank" rel="noopener"><img src="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb3.png" alt="image" title="image"></a></p>
+<p>（上图）第三个标签页是用来决定自动获取需要翻译字段的关键字。就是告诉软件，当代码中出现什么的字时候，确定它为要翻译的字段而选择出来。大家按上图填写就好了，是不是发现上面的“_e”在较早我所说的例子代码里都存在啊，大家明白了吧。</p>
+<p>当大家按上面的设置好之后，<strong>记得把文件存放在较早前新建的目录<strong>languages</strong>内（我的为wp-contentthemeslove4026languages），因为这是简体中文的翻译，所以文件名是zh_CN，后缀名是.po（完成之后为wp-contentthemeslove4026languageszh_CN.po）</strong>。</p>
+<p>接下来点击一下软件中的第三个图标（如下图红色标记处）。软件就把我们主题文件中（zh_CN.po的上级目录）所有的php文件扫描一遍，合符要求的需要翻译的字段列举出来了。</p>
+<p><a href="http://www.love4026.org/wp-content/uploads/2011/02/image4.png" target="_blank" rel="noopener"><img src="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb4.png" alt="image" title="image"></a></p>
+<p>如下图，工具显示两栏，左侧为需要翻译的字段，右侧是译文。当还没有翻译的字段的右侧是留空的。<a href="http://www.love4026.org/wp-content/uploads/2011/02/image5.png" target="_blank" rel="noopener"><img src="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb5.png" alt="image" title="image"></a></p>
+<p>我们点击下需要翻译的字段，然后在最下面一栏填写翻译的内容就行了。大家就这样把需要翻译的字段一个一个翻译完吧，耐心点。</p>
+<p>当所有需要翻译的字段都完成后，点击<strong>如下图</strong>的红色按钮。<strong>软件会把当前的编译文件zh_CN.po进行保存并且同时在该文件的的有目录中生成一个文件名相同但后缀名是.mo的文件。</strong></p>
+<p><a href="http://www.love4026.org/wp-content/uploads/2011/02/image6.png" target="_blank" rel="noopener"><img src="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb6.png" alt="image" title="image"></a></p>
+<p>因为后缀名是.po的文件我们是可以进行编译操作的，文件名是.mo的则是不能进行编译，但它却是系统需要读取的文件。<strong>所以请务必日后在每次更改了.po文件后，都重复一下上面的这个步骤（就是保存一遍），更新一下对应的.mo文件。</strong></p>
+<p><a href="http://www.love4026.org/wp-content/uploads/2011/02/image7.png" target="_blank" rel="noopener"><img src="http://www.love4026.org/wp-content/uploads/2011/02/image_thumb7.png" alt="image" title="image"></a></p>
+<p>基本的操作就是这样的了，大家翻译好简体中文的，就翻译其它语言的吧。所有的步骤都与上面所说的相同，只是翻译的内容不同罢了。相信大家会举一反三的。</p>
+<p>附：WordPress是怎样知道该读取哪个语言文件呢？其实就是在它的wp-config.php文件中，不是有下面的这样一句？</p>
+<p>define (‘WPLANG’, ‘<span style="color: #ff0000;">zh_CN</span>’);</p>
+<p>注意红色部分，为空默认为英语，zh_CN为中文。</p>
+<p>下面是我的主题文件里多语言支持的写法，大家可以参考下写法</p>
+<pre class="lang:php decode:true ">&lt;h2&gt;&lt;?php _e('Error 404 - Not Found', 'love4026')?&gt;&lt;/h2&gt;</pre>
+<pre class="lang:php decode:true ">&lt;?php the_content(__('Continue reading &amp;raquo;', 'love4026')); ?&gt;</pre>
+<pre class="lang:php decode:true ">&lt;?php if ($req) echo __('(required)', 'love4026'); ?&gt;</pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/wordpress/" rel="tag"># wordpress</a>
+          
+            <a href="/tags/wordpress中文/" rel="tag"># wordpress中文</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/313011/21个实用的php代码/" rel="next" title="21个实用的php代码">
+                <i class="fa fa-chevron-left"></i> 21个实用的php代码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/313004/apache下用-htaccess控制及破解图片防盗链/" rel="prev" title="apache下用-htaccess控制及破解图片防盗链">
+                apache下用-htaccess控制及破解图片防盗链 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Ray Chang" />
+          <p class="site-author-name" itemprop="name">Ray Chang</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">383</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">170</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/sbmzhcn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/love4026/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.lanthy.com/" title="蓝悉" target="_blank">蓝悉</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2010 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ray Chang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

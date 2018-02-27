@@ -1,0 +1,889 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="&amp;lt;?php /**  fixHtmlTag* HTML标签修复函数，此函数可以修复未正确闭合的 HTML 标签* 由于不确定性因素太多，暂时提供两种模式“嵌套闭合模式”和 “就近闭合模式”，应该够用了。* 这两种模式是我为了解释清楚此函数的实现而创造的两个名词， 只需明白什么意思就行。 1，嵌套闭合模式，NEST，为默认的闭合方式。即 “&amp;lt;body&amp;gt;&amp;lt;div&amp;gt;你好”">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php-修复未正常关闭的-html-标签（支持嵌套和就近闭合）">
+<meta property="og:url" content="http://love4026.org/313406/php-修复未正常关闭的-html-标签（支持嵌套和就近闭合）/index.html">
+<meta property="og:site_name" content="Ray&#39;s Blog">
+<meta property="og:description" content="&amp;lt;?php /**  fixHtmlTag* HTML标签修复函数，此函数可以修复未正确闭合的 HTML 标签* 由于不确定性因素太多，暂时提供两种模式“嵌套闭合模式”和 “就近闭合模式”，应该够用了。* 这两种模式是我为了解释清楚此函数的实现而创造的两个名词， 只需明白什么意思就行。 1，嵌套闭合模式，NEST，为默认的闭合方式。即 “&amp;lt;body&amp;gt;&amp;lt;div&amp;gt;你好”">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-27T11:53:33.415Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="php-修复未正常关闭的-html-标签（支持嵌套和就近闭合）">
+<meta name="twitter:description" content="&amp;lt;?php /**  fixHtmlTag* HTML标签修复函数，此函数可以修复未正确闭合的 HTML 标签* 由于不确定性因素太多，暂时提供两种模式“嵌套闭合模式”和 “就近闭合模式”，应该够用了。* 这两种模式是我为了解释清楚此函数的实现而创造的两个名词， 只需明白什么意思就行。 1，嵌套闭合模式，NEST，为默认的闭合方式。即 “&amp;lt;body&amp;gt;&amp;lt;div&amp;gt;你好”">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://love4026.org/313406/php-修复未正常关闭的-html-标签（支持嵌套和就近闭合）/"/>
+
+
+
+
+
+  <title>php-修复未正常关闭的-html-标签（支持嵌套和就近闭合） | Ray's Blog</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ray's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://love4026.org/313406/php-修复未正常关闭的-html-标签（支持嵌套和就近闭合）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ray Chang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ray's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">php-修复未正常关闭的-html-标签（支持嵌套和就近闭合）</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2012-06-08T21:04:54+00:00">
+                2012-06-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/转载/" itemprop="url" rel="index">
+                    <span itemprop="name">转载</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><pre class="lang:php decode:true ">&lt;?php</pre></p>
+<p>/**</p>
+<ul>
+<li>fixHtmlTag<br>*</li>
+<li>HTML标签修复函数，此函数可以修复未正确闭合的 HTML 标签<br>*</li>
+<li>由于不确定性因素太多，暂时提供两种模式“嵌套闭合模式”和</li>
+<li>“就近闭合模式”，应该够用了。<br>*</li>
+<li>这两种模式是我为了解释清楚此函数的实现而创造的两个名词，</li>
+<li>只需明白什么意思就行。</li>
+<li>1，嵌套闭合模式，NEST，为默认的闭合方式。即 “&lt;body&gt;&lt;div&gt;你好”</li>
+<li>这样的 html 代码会被修改为 “&lt;body&gt;&lt;div&gt;你好&lt;/div&gt;&lt;/body&gt;”</li>
+<li>2，就近闭合模式，CLOSE，这种模式会将形如 “&lt;p&gt;你好&lt;p&gt;为什么没有</li>
+<li>闭合呢” 的代码修改为 “&lt;p&gt;你好&lt;/p&gt;&lt;p&gt;为什么没有闭合呢&lt;/p&gt;”<br>*</li>
+<li>在嵌套闭合模式（默认，无需特殊传参）下，可以传入需要就近闭合的</li>
+<li>标签名，通过这种方式将类似 “&lt;body&gt;&lt;p&gt;你好&lt;/p&gt;&lt;p&gt;我也好” 转换为</li>
+<li>“&lt;body&gt;&lt;p&gt;你好&lt;/p&gt;&lt;p&gt;我也好&lt;/p&gt;&lt;/body&gt;”的形式。</li>
+<li>传参时索引需要按照如下方式写，不需要修改的设置可以省略</li>
+<li></li>
+<li>$param = array(</li>
+<li>‘html’ =&gt; ‘’,            //必填</li>
+<li>‘options’ =&gt; array(</li>
+<li>‘tagArray’ =&gt; array();</li>
+<li>‘type’ =&gt; ‘NEST’,</li>
+<li>‘length’ =&gt; null,</li>
+<li>‘lowerTag’ =&gt; TRUE,</li>
+<li>‘XHtmlFix’ =&gt; TRUE,</li>
+<li>)</li>
+<li>);</li>
+<li>fixHtmlTag($param);</li>
+<li></li>
+<li>上面索引对应的值含义如下</li>
+<li>string     $html     需要修改的 html 代码</li>
+<li>array      $tagArray 当为嵌套模式时，需要就近闭合的标签数组</li>
+<li>string     $type     模式名，目前支持 NEST 和 CLOSE 两种模式，如果设置为 CLOSE，将会忽略参数 $tagArray 的设置，而全部就近闭合所有标签</li>
+<li>ini         $length   如果希望截断一定长度，可以在此赋值，此长度指的是字符串长度</li>
+<li>bool     $lowerTag 是否将代码中的标签全部转换为小写，默认为 TRUE</li>
+<li>bool     $XHtmlFix 是否处理不符合 XHTML 规范的标签，即将 &lt;br&gt; 转换为 &lt;br /&gt;<br>*</li>
+<li>@author  IT不倒翁 &lt;<a href="mailto:itbudaoweng@gmail.com" target="_blank" rel="noopener">itbudaoweng@gmail.com</a>&gt;</li>
+<li>@version 0.2</li>
+<li>@link      <a href="http://yungbo.com" target="_blank" rel="noopener">http://yungbo.com</a> IT不倒翁</li>
+<li>@link     <a href="http://enenba.com/?post=19" target="_blank" rel="noopener">http://enenba.com/?post=19</a> 某某</li>
+<li>@param     array     $param       数组参数，需要赋予特定的索引</li>
+<li>@return     string     $result      经过处理后的 html 代码</li>
+<li><p>@since     2012-04-14<br>*/<br>function fixHtmlTag($param = array()) {<br> //参数的默认值<br> $html = ‘’;<br> $tagArray = array();<br> $type = ‘NEST’;<br> $length = null;<br> $lowerTag = TRUE;<br> $XHtmlFix = TRUE;</p>
+<p> //首先获取一维数组，即 $html 和 $options （如果提供了参数）<br> extract($param);</p>
+<p> //如果存在 options，提取相关变量<br> if (isset($options)) {</p>
+<pre><code>extract($options);
+</code></pre><p> }</p>
+<p> $result   = ‘’; //最终要返回的 html 代码<br> $tagStack = array(); //标签栈，用 array_push() 和 array_pop() 模拟实现<br> $contents = array(); //用来存放 html 标签<br> $len      = 0; //字符串的初始长度</p>
+<p> //设置闭合标记 $isClosed，默认为 TRUE, 如果需要就近闭合，成功匹配开始标签后其值为 false,成功闭合后为 true<br> $isClosed = true;</p>
+<p> //将要处理的标签全部转为小写<br> $tagArray = array_map(‘strtolower’, $tagArray);</p>
+<p> //“合法”的单闭合标签<br> $singleTagArray = array(</p>
+<pre><code>&apos;&amp;lt;meta&apos;,
+&apos;&amp;lt;link&apos;,
+&apos;&amp;lt;base&apos;,
+&apos;&amp;lt;br&apos;,
+&apos;&amp;lt;hr&apos;,
+&apos;&amp;lt;input&apos;,
+&apos;&amp;lt;img&apos;
+</code></pre><p> );</p>
+<p> //校验匹配模式 $type，默认为 NEST 模式<br> $type = strtoupper($type);<br> if (!in_array($type, array(‘NEST’, ‘CLOSE’))) {</p>
+<pre><code>$type = &apos;NEST&apos;;
+</code></pre><p> }</p>
+<p> //以一对 &lt; 和 &gt; 为分隔符，将原 html 标签和标签内的字符串放到数组中<br> $contents = preg_split(“/(&lt;[^&gt;]+?&gt;)/si”, $html, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);</p>
+<p> foreach ($contents as $tag) {</p>
+<pre><code>if (&apos;&apos; == trim($tag)) {
+    $result .= $tag;
+    continue;
+}
+
+//匹配标准的单闭合标签，如&amp;lt;br /&amp;gt;
+if (preg_match(&quot;/&amp;lt;(\w+)[^\/&amp;gt;]*?\/&amp;gt;/si&quot;, $tag)) {
+    $result .= $tag;
+    continue;
+}
+
+//匹配开始标签，如果是单标签则出栈
+else if (preg_match(&quot;/&amp;lt;(\w+)[^\/&amp;gt;]*?&amp;gt;/si&quot;, $tag, $match)) {
+    //如果上一个标签没有闭合，并且上一个标签属于就近闭合类型
+    //则闭合之，上一个标签出栈
+
+    //如果标签未闭合
+    if (false === $isClosed) {
+        //就近闭合模式，直接就近闭合所有的标签
+        if (&apos;CLOSE&apos; == $type) {
+            $result .= &apos;&amp;lt;/&apos; . end($tagStack) . &apos;&amp;gt;&apos;;
+            array_pop($tagStack);
+        }
+        //默认的嵌套模式，就近闭合参数提供的标签
+        else {
+            if (in_array(end($tagStack), $tagArray)) {
+                $result .= &apos;&amp;lt;/&apos; . end($tagStack) . &apos;&amp;gt;&apos;;
+                array_pop($tagStack);
+            }
+        }
+    }
+
+    //如果参数 $lowerTag 为 TRUE 则将标签名转为小写
+    $matchLower = $lowerTag == TRUE ? strtolower($match[1]) : $match[1];
+
+    $tag = str_replace(&apos;&amp;lt;&apos; . $match[1], &apos;&amp;lt;&apos; . $matchLower, $tag);
+    //开始新的标签组合
+    $result .= $tag;
+    array_push($tagStack, $matchLower);
+
+    //如果属于约定的的单标签，则闭合之并出栈
+    foreach ($singleTagArray as $singleTag) {
+        if (stripos($tag, $singleTag) !== false) {
+            if ($XHtmlFix == TRUE) {
+                $tag = str_replace(&apos;&amp;gt;&apos;, &apos; /&amp;gt;&apos;, $tag);
+            }
+            array_pop($tagStack);
+        }
+    }
+
+    //就近闭合模式，状态变为未闭合
+    if (&apos;CLOSE&apos; == $type) {
+        $isClosed = false;
+    }
+    //默认的嵌套模式，如果标签位于提供的 $tagArray 里，状态改为未闭合
+    else {
+        if (in_array($matchLower, $tagArray)) {
+            $isClosed = false;
+        }
+    }
+    unset($matchLower);
+}
+
+//匹配闭合标签，如果合适则出栈
+else if (preg_match(&quot;/&amp;lt;\/(\w+)[^\/&amp;gt;]*?&amp;gt;/si&quot;, $tag, $match)) {
+
+    //如果参数 $lowerTag 为 TRUE 则将标签名转为小写
+    $matchLower = $lowerTag == TRUE ? strtolower($match[1]) : $match[1];
+
+    if (end($tagStack) == $matchLower) {
+        $isClosed = true; //匹配完成，标签闭合
+        $tag = str_replace(&apos;&amp;lt;/&apos; . $match[1], &apos;&amp;lt;/&apos; . $matchLower, $tag);
+        $result .= $tag;
+        array_pop($tagStack);
+    }
+    unset($matchLower);
+}
+
+//匹配注释，直接连接 $result
+else if (preg_match(&quot;/&amp;lt;!--.*?--&amp;gt;/si&quot;, $tag)) {
+    $result .= $tag;
+}
+
+//将字符串放入 $result ，顺便做下截断操作
+else {
+    if (is_null($length) || $len + mb_strlen($tag) &amp;lt; $length) {
+        $result .= $tag;
+        $len += mb_strlen($tag);
+    } else {
+        $str = mb_substr($tag, 0, $length - $len + 1);
+        $result .= $str;
+        break;
+    }
+}
+</code></pre><p> }</p>
+<p> //如果还有将栈内的未闭合的标签连接到 $result<br> while (!empty($tagStack)) {</p>
+<pre><code>$result .= &apos;&amp;lt;/&apos; . array_pop($tagStack) . &apos;&amp;gt;&apos;;
+</code></pre><p> }<br> return $result;<br>}<br>&nbsp;</p>
+</li>
+</ul>
+<p>&nbsp;</p>
+<p><a href="http://yungbo.com/php/php-fix-unmachted-html-tags-no-phptidy-extension.html" target="_blank" rel="noopener">http://yungbo.com/php/php-fix-unmachted-html-tags-no-phptidy-extension.html</a></p>
+<p><a href="http://blog.csdn.net/iseagold/article/details/5484904" target="_blank" rel="noopener">http://blog.csdn.net/iseagold/article/details/5484904</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/313403/win7取得管理员权限/" rel="next" title="win7取得管理员权限">
+                <i class="fa fa-chevron-left"></i> win7取得管理员权限
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/313408/wordpress-mu-迁移域名/" rel="prev" title="wordpress-mu-迁移域名">
+                wordpress-mu-迁移域名 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Ray Chang" />
+          <p class="site-author-name" itemprop="name">Ray Chang</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+           
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">383</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">170</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/sbmzhcn" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/love4026/" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.lanthy.com/" title="蓝悉" target="_blank">蓝悉</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2010 - 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Ray Chang</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
