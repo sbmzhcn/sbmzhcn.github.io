@@ -254,6 +254,256 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://love4026.org/29001/其它网站调用wordpress日志列表/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ray Chang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ray's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/29001/其它网站调用wordpress日志列表/" itemprop="url">其它网站调用wordpress日志列表</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2010-09-07T11:14:16+08:00">
+                2010-09-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/个人日志/" itemprop="url" rel="index">
+                    <span itemprop="name">个人日志</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近工作遇到调用blog里的内容，一般博客都是用wordpress建的，调用的时候会有两种情况，一种博客在同一个站点，一种不在同一个站点，比如二级域名。</p>
+<p>同一个站点的话比较简单：</p>
+<pre>&lt;?php
+define('WP_USE_THEMES', false);
+require('blog/wp-blog-header.php'); //修改博客的路径
+
+query_posts('showposts=20'); //显示文章条数
+?&gt;
+&lt;?php while (have_posts()): the_post(); ?&gt;
+&lt;li&gt;&lt;a href="&lt;?php the_permalink(); ?&gt;" target="_blank"&gt;
+&lt;?php echo mb_strimwidth(strip_tags(apply_filters('the_title', $post-&gt;post_title)), 0, 50," "); ?&gt;
+&lt;/a&gt;&lt;/li&gt;
+&lt;?php endwhile; ?&gt;
+
+</pre>
+
+<p>不在一个站点</p>
+<p>不在同一站点的情况下，网上流传的方法是用了一款名为Ecall的插件，这个插件是JS调用的，不利于SEO。<br>一种方法是使用同一站点的方法，在博客根目录中新建blog_call.php文件，内容同站点中给出的代码，然后在需要调用的站点使用file读取</p>
+<pre>&lt;?php
+//$str = file("http://www.blog.com/blog_call.php");
+//补充 file测试中有读取不全的现象更正为：
+f$str = ile_get_contents("http://www.blog.com/blog_call.php");
+echo $str[0];
+?&gt;
+
+另一种方法是读取博客RSS的方式，下面这段PHP读取RSS的代码在网上流传已久，但是很多朋友不知道，其实它是可以用在WP外部调用上的··
+&lt;?php
+//RSS源地址列表数组
+$rssfeed = array("http://feeds2.feedburner.com/redlogpress",
+"http://rss.sina.com.cn/news/allnews/sports.xml",
+"http://ent.163.com/special/00031K7Q/rss_toutiao.xml");
+
+//设置编码为UTF-8
+header('Content-Type:text/html;charset= UTF-8');
+for($i=0;$i&lt;sizeof($rssfeed);$i++){//分解开始
+
+$buff = "";
+$rss_str="";
+//打开rss地址，并读取，读取失败则中止
+$fp = fopen($rssfeed[$i],"r") or die("can not open $rssfeed");
+
+while ( !feof($fp) ) {
+$buff .= fgets($fp,4096);
+
+}
+//关闭文件打开
+fclose($fp);
+//建立一个 XML 解析器
+$parser = xml_parser_create();
+//xml_parser_set_option -- 为指定 XML 解析进行选项设置
+
+xml_parser_set_option($parser,XML_OPTION_SKIP_WHITE,1);
+//xml_parse_into_struct -- 将 XML 数据解析到数组$values中
+xml_parse_into_struct($parser,$buff,$values,$idx);
+
+//xml_parser_free -- 释放指定的 XML 解析器
+xml_parser_free($parser);
+foreach ($values as $val) {
+$tag = $val["tag"];
+
+$type = $val["type"];
+$value = $val["value"];
+//标签统一转为小写
+
+$tag = strtolower($tag);
+if ($tag == "item" &amp;&amp; $type == "open"){
+
+$is_item = 1;
+}else if ($tag == "item" &amp;&amp; $type == "close") {
+
+//构造输出字符串
+$rss_str .= "&lt;a href='".$link."' target=_blank&gt;".$title."&lt;/a&gt;&lt;br /&gt;";
+
+$is_item = 0;
+}
+//仅读取item标签中的内容
+if($is_item==1){
+if ($tag == "title") {$title = $value;}
+
+if ($tag == "link") {$link = $value;}
+}
+}
+
+//输出结果
+echo $rss_str."&lt;br /&gt;";
+}
+?&gt;
+</pre>
+
+<p>这两种方法都是要求使用调用的站点支持PHP，如果不支持PHP而支持ASP的话可以用方法一，把读取blog_call.php的PHP代码用ASP重写一遍，但是如果是静态空间就只能装插件来实现了。</p>
+<p>同域名下不同Wordpress间文章调用</p>
+<pre>&lt;?php
+$loca="/blog";//这里定义你的WP目录
+require_once( dirname(__FILE__) . $loca.'/wp-load.php' );//注意这里是wp目录下的wp-load.php
+wp();//这样wp的加载就完成了，我们不需要加载模板。
+?&gt;
+&lt;?php
+query_posts('showposts=3'); //就是这里加了一句query_posts，这样也可以实现调用条数的指定。
+while (have_posts()) : the_post();
+?&gt;&lt;div&gt;
+&lt;?php the_excerpt();?&gt;
+&lt;/div&gt;
+&lt;?php endwhile; ?&gt;
+&lt;!--导航开始--&gt;
+&lt;p align="center"&gt;
+&lt;?php
+global $paged, $wp_query;
+if($paged&gt;1)
+echo '&lt;a href='.str_replace($loca,'',get_previous_posts_page_link()).'&gt;&amp;laquo; Previous Entry&lt;/a&gt; ';
+if($paged&lt;$wp_query-&gt;max_num_pages)
+echo ' &lt;a href='.str_replace($loca,'',get_next_posts_page_link()).'&gt;Next Entry &amp;raquo;&lt;/a&gt;';
+?&gt;
+&lt;/p&gt;
+&lt;!--导航结束--&gt;
+
+PS：JS调用可以采用Feed to JS来实现。
+</pre><pre>
+</pre>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://love4026.org/27001/i-wanna-be-free/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1585,144 +1835,6 @@ Header( "Location: http://www.rockscrusher.com" );?&gt;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://love4026.org/11001/seo优化前三天/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ray Chang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Ray's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/11001/seo优化前三天/" itemprop="url">seo优化前三天</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2010-08-21T11:36:35+08:00">
-                2010-08-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/个人日志/" itemprop="url" rel="index">
-                    <span itemprop="name">个人日志</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>一整天都写关于讲座的PPT，总算完成的差不多了，然而可写的东西还是很少。XHTML+CSS还算熟悉，但SEO就不行了。并且我现在还在学习中。</p>
-<p>前几天我们小组我布置了一些任务，就是增加反链的，今天查了下，很多人的优化的页面只增加了10几个，而有的还算不错，增中了一倍。当然那些增加一倍的词都排到第一页，小组里就是怕这样的事情发生，每个人不能把那些任务当作自身的利益，这样的后果，多少很无奈，也许每个人都说完成任务了，但是又有几个去看一下为什么没有增加到相应的量，也许自己努力了那么多，可结果却和别人相差很大，这不是能力的问题，这是细心的问题。</p>
-<p>做每一件事前要有一个预期，达不到预期肯定是自己的方向有问题，要及时查找。如果一直的工作毫无进展，不如停止查找原因。只忙碌是没有用的，还要学会思考。</p>
-<p>这个月的结束不知道结局如何，依目前的情况看，很堪忧啊。但等讲座的事情结束，要好好的梳理下自己的工作了。我想的目标一定要达成，哪怕只靠我自己的力量。我相信，这只是时间的问题。当然我不会让它浪费我太多时间的。</p>
-<p>等9月份来了，天气也许就不那么热了。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1772,7 +1884,7 @@ Header( "Location: http://www.rockscrusher.com" );?&gt;
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">383</span>
+                <span class="site-state-item-count">384</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1794,7 +1906,7 @@ Header( "Location: http://www.rockscrusher.com" );?&gt;
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">170</span>
+                <span class="site-state-item-count">171</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

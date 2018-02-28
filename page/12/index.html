@@ -254,6 +254,169 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://love4026.org/313613/使用php将大文件导入到数据库中/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Ray Chang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ray's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/313613/使用php将大文件导入到数据库中/" itemprop="url">使用php将大文件导入到数据库中</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-06-22T10:55:14+08:00">
+                2013-06-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/转载/" itemprop="url" rel="index">
+                    <span itemprop="name">转载</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p> 将 170w行的txt文件.按行把数据导入到数据库中.</p>
+<pre class="lang:php decode:true ">header ( "Content-type: text/html;charset=utf-8" ); 
+set_time_limit(0); 
+include(’Database.class.php’); 
+$db = new Database(’127.0.0.1’, ’root’, ’root’, ’test’); //数据库 
+$fp = fopen(’171w.txt’, ’r’); //文件 
+$i=1; //开始行数 
+$array = array();  //用来存放从XXX-XXX行的数据的数组 
+//回调函数 
+function callback($now) { 
+    global $db, $array, $i, $fp; 
+    if(empty($array)) {             //为了节省资源..我们只生成一次数组 
+        while (!feof($fp)) { 
+           if($i == $now) {         //循环到需要读取的行数时 
+               for($j=$i;$j&lt;=$i+999;$j++) {         //读取下面的1000行并存储到数组中 
+                   $array[$j] = stream_get_line($fp, 1000000, "\n"); 
+               } 
+               break; 
+           } 
+           stream_get_line($fp, 1000000, "\n");    //实践证明 stream_get_line 比 fgets 快很多.. 
+           $i++; 
+        } 
+    } 
+    $db-&gt;insert("INSERT INTO test(name) VALUES(’{$array[$now]}’)");  //插入到数据库中 
+} 
+include(’SkiyoProcess.class.php’); 
+$sp = new SkiyoProcess(2, 1000, 171000);  //间隔为2秒  每次插入1000条数据 一共171000行数据 
+$sp-&gt;process(’callback’);</pre> 
+
+<p>原文:<a href="http://blogread.cn/it/article/1825?f=wb" target="_blank" rel="noopener">http://blogread.cn/it/article/1825?f=wb</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://love4026.org/313609/应该知道的linux技巧/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2053,165 +2216,6 @@ Yet, those hands will never hold anything. So as I pray, unlimited blade works.&
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://love4026.org/313576/如何从只有回调函数的函数中返回值/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Ray Chang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Ray's Blog">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/313576/如何从只有回调函数的函数中返回值/" itemprop="url">如何从只有回调函数的函数中返回值</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2013-03-26T02:47:39+08:00">
-                2013-03-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/HTML-CSS/" itemprop="url" rel="index">
-                    <span itemprop="name">HTML/CSS</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>最近在做关于google maps 的开发，遇到一些只有回调函数没有返回值的函数，但又必须得到返回值，找了很多资料终于解决了问题，需要再写个函数，在回调函数中获取。</p>
-<p>原文在这儿：<a href="http://stackoverflow.com/questions/2993563/how-do-i-return-a-variable-from-google-maps-javascript-geocoder-callback" target="_blank" rel="noopener">http://stackoverflow.com/questions/2993563/how-do-i-return-a-variable-from-google-maps-javascript-geocoder-callback</a></p>
-<p>这是一个例子：</p>
-<pre class="lang:js decode:true ">var geocoder;
-function initialize() {
-  geocoder = new google.maps.Geocoder();
-  var latlng = new google.maps.LatLng(40.730885,-73.997383);
-  codeLatLng(function(addr){
-    alert(addr);
-  });
-}
-
-function codeLatLng(callback) {
-  var latlng = new google.maps.LatLng(40.730885,-73.997383);
-  if (geocoder) {
-    geocoder.geocode({'latLng': latlng}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        if (results[1]) {
-          callback(results[1].formatted_address);
-        } else {
-          alert("No results found");
-        }
-      } else {
-        alert("Geocoder failed due to: " + status);
-      }
-    });
-  }</pre> 
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -2261,7 +2265,7 @@ function codeLatLng(callback) {
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">383</span>
+                <span class="site-state-item-count">384</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -2283,7 +2287,7 @@ function codeLatLng(callback) {
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">170</span>
+                <span class="site-state-item-count">171</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
