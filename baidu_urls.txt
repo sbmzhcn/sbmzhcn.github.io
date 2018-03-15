@@ -1,3 +1,4 @@
+https://www.love4026.org/316026/ubuntu-create-self-server-ngrok/
 https://www.love4026.org/316022/what-is-bitcoin/
 https://www.love4026.org/316020/2018-front-end-interview-questions/
 https://www.love4026.org/316018/weixin-create-local-server-env/
@@ -7,4 +8,3 @@ https://www.love4026.org/316012/wordpress-hacked-by-php-script/
 https://www.love4026.org/316010/how-to-insert-image-in-hexo-blog-post/
 https://www.love4026.org/316008/nginx-proxy-module-ngx-http-google-filter-module/
 https://www.love4026.org/316002/my-new-blog-2018/
-https://www.love4026.org/316000/deploy-hexo-blog-to-git-and-vps-auto-with-travis/
