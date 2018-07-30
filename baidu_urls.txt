@@ -1,3 +1,4 @@
+https://www.love4026.org/20180730/javascript-closures/
 https://www.love4026.org/20180615/google-seo-inquiry-messageboard/
 https://www.love4026.org/20180524/do-you-have-technical-anxiety/
 https://www.love4026.org/20180419/search-engine-elasticsearch-vs-solr/
@@ -7,4 +8,3 @@ https://www.love4026.org/316020/2018-front-end-interview-questions/
 https://www.love4026.org/316018/weixin-create-local-server-env/
 https://www.love4026.org/316016/es6-in-depth-modules/
 https://www.love4026.org/316014/lnmp-fix-memcache-udp-reflection-ddos/
-https://www.love4026.org/316012/wordpress-hacked-by-php-script/
