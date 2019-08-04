@@ -11,14 +11,14 @@
 #
 # FTP Service must be pureftpd.
 #
-# wget -O bulk_vhost.sh https://raw.githubusercontent.com/sbmzhcn/Tools/master/bulk_vhost.sh --no-check-certificate && chmod u+x bulk_vhost.sh
+# wget -O bulk_vhost.sh https://raw.githubusercontent.com/leadscloud/Tools/master/bulk_vhost.sh --no-check-certificate && chmod u+x bulk_vhost.sh
 # 
 #
 # For more information please visit http://www.love4026.org/
-# Code url: https://raw.githubusercontent.com/sbmzhcn/Tools/master/bulk_vhost.sh
+# Code url: https://raw.githubusercontent.com/leadscloud/Tools/master/bulk_vhost.sh
 # 
 # Install:
-#     wget -O bulk_vhost.sh http://sbmzhcn.github.io/soft/bulk_vhost.sh && chmod u+x bulk_vhost.sh
+#     wget -O bulk_vhost.sh http://leadscloud.github.io/soft/bulk_vhost.sh && chmod u+x bulk_vhost.sh
 # 
 # Last Updated: 2017-05-12
 #
@@ -476,7 +476,7 @@ function install_typecho {
     if [ ! -d "/tmp/typecho.$$" ]; then
         # Downloading typecho build version
         mkdir /tmp/typecho.$$
-        wget -O - "http://sbmzhcn.github.io/soft/typecho.tar.gz" | \
+        wget -O - "http://leadscloud.github.io/soft/typecho.tar.gz" | \
             tar zxf - -C /tmp/typecho.$$
     fi
     cp -r /tmp/typecho.$$/build/* "/home/wwwroot/$1"
@@ -490,7 +490,7 @@ function install_empirecms {
     if [ ! -d "/tmp/empirecms.$$" ]; then
         # Downloading the EmpireCMS
         mkdir /tmp/empirecms.$$
-        wget -O - http://sbmzhcn.github.io/soft/empirecms-7.0-utf8.tar.gz | \
+        wget -O - http://leadscloud.github.io/soft/empirecms-7.0-utf8.tar.gz | \
             tar zxf - -C /tmp/empirecms.$$
     fi
     cp -r /tmp/empirecms.$$/* "/home/wwwroot/$1"
@@ -543,10 +543,10 @@ for example, when add domain love4026.org with ftp and mysql option, script will
     1. /home/wwwlogs/love4026.org.ftp.txt
     2. /home/wwwlogs/love4026.org.mysql.txt
 Author: Ray.
-Website: <http://www.love4026.org>.
+Website: <https://leadscloud.github.io>.
 Email: <sbmzhcn@gmail.com>.
 If you have any questions, please contact me!
-More information at: <https://github.com/sbmzhcn/Tools>.
+More information at: <https://github.com/leadscloud/Tools>.
 END
     exit 1
 }
