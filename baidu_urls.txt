@@ -1,3 +1,5 @@
+https://leadscloud.github.io/20191029/install-java-and-tomcat-on-centos/
+https://leadscloud.github.io/20191028/godaddy-recharge-with-zhifubao/
 https://leadscloud.github.io/20191010/how-to-reset-mysql-root-password/
 https://leadscloud.github.io/20190927/lanthy-offers-and-profile/
 https://leadscloud.github.io/20190926/how-to-use-iptables-forbidden-ip-or-url/
@@ -6,5 +8,3 @@ https://leadscloud.github.io/20190812/discourse-install-on-centos-aliyun/
 https://leadscloud.github.io/20190808/bitbucket-to-github/
 https://leadscloud.github.io/20190805/git-config-proxy-unset-proxy/
 https://leadscloud.github.io/20190731/bulk-find-and-replace-from-dir/
-https://leadscloud.github.io/20190526/2019-05-26/
-https://leadscloud.github.io/20190521/macos-enable-ntfs-write/
