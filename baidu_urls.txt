@@ -1,3 +1,4 @@
+https://leadscloud.github.io/20200904/set-dns-ubuntu-18-04/
 https://leadscloud.github.io/20200831/can-not-connect-remote-mysql/
 https://leadscloud.github.io/20200723/ubuntu18.04-fix-login-error/
 https://leadscloud.github.io/20191029/install-java-and-tomcat-on-centos/
@@ -7,4 +8,3 @@ https://leadscloud.github.io/20190927/lanthy-offers-and-profile/
 https://leadscloud.github.io/20190926/how-to-use-iptables-forbidden-ip-or-url/
 https://leadscloud.github.io/20190919/sqlite3-large-database-to-mysql/
 https://leadscloud.github.io/20190812/discourse-install-on-centos-aliyun/
-https://leadscloud.github.io/20190808/bitbucket-to-github/
