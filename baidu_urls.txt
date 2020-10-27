@@ -1,3 +1,4 @@
+https://leadscloud.github.io/20201027/linux-delete-files-older-x-days/
 https://leadscloud.github.io/20201013/kernal-panics-causing-restarts-in-use-extral-monitor/
 https://leadscloud.github.io/20200904/set-dns-ubuntu-18-04/
 https://leadscloud.github.io/20200831/can-not-connect-remote-mysql/
@@ -7,4 +8,3 @@ https://leadscloud.github.io/20191028/godaddy-recharge-with-zhifubao/
 https://leadscloud.github.io/20191010/how-to-reset-mysql-root-password/
 https://leadscloud.github.io/20190927/lanthy-offers-and-profile/
 https://leadscloud.github.io/20190926/how-to-use-iptables-forbidden-ip-or-url/
-https://leadscloud.github.io/20190919/sqlite3-large-database-to-mysql/
