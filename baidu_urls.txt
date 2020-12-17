@@ -1,3 +1,4 @@
+https://leadscloud.github.io/20201217/inode-limit-how-to-increase-inode-limit-on-block-storage-volume/
 https://leadscloud.github.io/20201120/how-to-use-floating-ip-on-digitalocean/
 https://leadscloud.github.io/20201027/linux-delete-files-older-x-days/
 https://leadscloud.github.io/20201013/kernal-panics-causing-restarts-in-use-extral-monitor/
@@ -7,4 +8,3 @@ https://leadscloud.github.io/20200723/ubuntu18.04-fix-login-error/
 https://leadscloud.github.io/20191029/install-java-and-tomcat-on-centos/
 https://leadscloud.github.io/20191028/godaddy-recharge-with-zhifubao/
 https://leadscloud.github.io/20191010/how-to-reset-mysql-root-password/
-https://leadscloud.github.io/20190927/lanthy-offers-and-profile/
